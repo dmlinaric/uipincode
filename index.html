@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8">
+	<title>PIN ENTER</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+	<script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="normalize.css">
+	<link rel="stylesheet" href="responsive.css">
+
+	<link rel="icon" type="image/png" href="images/favicon.png">
+  
+	<style type="text/css">
+  
+	body, html {
+		height: 100%;
+		width:100%;
+		margin:0;
+		padding:0;
+		font-size:20px;
+		font-family:'Raleway';
+	}
+  
+	.bg { 
+		background-image: url("bg.jpg");
+		height: 100%; 
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+	}  
+	
+	.popup{
+		position: absolute;
+		top: 50%;
+		left: 50%; 
+		-webkit-transform: translate(-50%, -50%);
+		-moz-transform: translate(-50%, -50%); 
+		-ms-transform: translate(-50%, -50%); 
+		-o-transform: translate(-50%, -50%); 
+		transform: translate(-50%, -50%); 		
+	}
+	
+	.numberButton{
+		font-size:25px;
+		border-radius:55px;
+		background-color:rgba(0,0,0,0.6);
+		text-align:center;
+		line-height:55px;
+		width:60px;
+		margin:0 auto;
+		margin-top:5px;
+		margin-bottom:5px;
+		color:white;
+		font-weigth:bold;
+		cursor:pointer;
+		transition: 0.3s ease;
+	   -moz-user-select: none;
+	   -khtml-user-select: none;
+	   -webkit-user-select: none;
+	   -ms-user-select: none;
+	   user-select: none;		
+	   border:2px solid rgba(0,0,0,0.1);
+	}
+	
+	.numberButton:hover{
+		background-color:rgba(0,0,0,0.7);
+	}
+	
+	</style>
+  
+	<script>
+	
+	String.prototype.shuffle = function () {
+		var a = this.split(""),	n = a.length;
+		for(var i = n - 1; i > 0; i--) {var j = Math.floor(Math.random() * (i + 1)); var tmp = a[i]; a[i] = a[j]; a[j] = tmp;}
+		return a.join("");
+	}	
+	
+	
+	var code = '';
+	
+	$(function() {
+	
+		var randomer = "1234567890".shuffle();
+		for(n=0;n<randomer.length;n++){
+			var nm = randomer.substring(n,n+1);
+			$('#Keyboard').append('<div class="col-xs-4"><div onclick="EnterNumber(' + nm + ');" class="numberButton">' + nm + '</div></div>');
+			if(n==8){$('#Keyboard').append('<div class="col-xs-4"><div class="numberButton"><i class="fas fa-check"></i></div></div>');}
+			if(n==9){$('#Keyboard').append('<div class="col-xs-4"><div onclick="EraseCode();" class="numberButton"><i class="fas fa-eraser"></i></div></div>');}
+		}
+	
+	});
+	
+	function EnterNumber(value){
+		
+		var code = $('#enteredCode').val() + value;
+		$('#enteredCode').val(code);
+		
+		$('#Code').html(); var dots = '';
+		for(n=0;n<code.length;n++){
+			dots += '<i class="fas fa-fw fa-circle"></i>'
+		}
+		$('#Code').html(dots);
+		
+	}
+	
+	function EraseCode(){
+		$('#enteredCode').val('');
+		$('#Code').html('');
+	}
+	
+  </script>
+
+</head>
+<body>
+	<div class="bg">
+		<div class="popup" style="max-width:400px; width:100%; margin:0 auto;">
+			<div class="col-xs-12" style="color:white; font-weight:bold; text-align:center; padding:20px 20px;">Please enter your PIN Code</div>
+			
+			<input type="hidden" name="code" id="enteredCode"></input>
+			<div class="col-xs-2"></div>
+			<div class="col-xs-8">
+				<div style="height:50px;" class="col-xs-12">
+					<div id="Code" style="text-align:center; opacity:0.5;"></div>
+				</div><div id="Keyboard" class="col-xs-12"></div>
+			</div>
+			<div class="col-xs-2"></div>
+		</div>
+	</div>
+</body>
+</html>
